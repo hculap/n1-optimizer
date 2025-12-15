@@ -50,8 +50,26 @@ Results are grouped by category with issue counts:
 
 ## Installation
 
+### From GitHub (Recommended)
+
+In Claude Code, run:
+
+```
+/plugin marketplace add hculap/n1-optimizer
+/plugin install n1-optimizer@n1-optimizer
+```
+
+### Local Development
+
+Clone and load directly:
+
 ```bash
+git clone https://github.com/hculap/n1-optimizer.git
 claude --plugin-dir /path/to/n1-optimizer
 ```
 
-Or add to your project's `.claude/plugins/` directory.
+For development/testing:
+
+```bash
+claude --plugin-dir .
+```
