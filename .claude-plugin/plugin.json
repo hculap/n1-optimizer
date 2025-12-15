@@ -5,5 +5,8 @@
   "author": {
     "name": "Szymon Paluch"
   },
+  "repository": "https://github.com/hculap/n1-optimizer",
+  "homepage": "https://github.com/hculap/n1-optimizer#readme",
+  "license": "MIT",
   "keywords": ["performance", "n+1", "optimization", "database", "api", "analysis"]
 }

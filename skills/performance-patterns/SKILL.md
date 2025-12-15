@@ -1,7 +1,7 @@
 ---
-name: Performance Patterns
-description: This skill should be used when the user asks about "N+1 queries", "performance optimization", "query optimization", "reduce API calls", "improve render performance", "fix slow code", "optimize database", "reduce bundle size", or needs guidance on identifying and fixing performance anti-patterns across database, backend, frontend, and API layers.
-version: 0.1.0
+name: performance-patterns
+description: Use when user asks about N+1 queries, performance optimization, query optimization, reduce API calls, improve render performance, fix slow code, optimize database, or reduce bundle size. Provides guidance on identifying and fixing performance anti-patterns across database, backend, frontend, and API layers.
+allowed-tools: Read, Grep, Glob
 ---
 
 # Performance Anti-Patterns Reference

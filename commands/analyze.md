@@ -1,6 +1,7 @@
 ---
 description: Analyze codebase for N+1 queries and performance issues using parallel agents
-allowed-tools: Task, Read, Glob, Grep, TodoWrite
+allowed-tools: Task, TaskOutput, Read, Glob, Grep, TodoWrite
+argument-hint: [directory]
 ---
 
 # N+1 Optimizer Analysis
