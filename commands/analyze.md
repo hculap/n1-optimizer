@@ -103,18 +103,45 @@ Focus on:
 Return findings in format: [SEVERITY] Issue - file:line"
 ```
 
-## Step 3: Wait for Results
+## Step 3: Wait for Results with Retry
 
-After launching all 4 agents, wait for each to complete using TaskOutput:
+After launching all 4 agents, wait for each to complete using TaskOutput with timeout:
 
 ```
-TaskOutput(task_id: [database-analyzer-id], block: true)
-TaskOutput(task_id: [backend-analyzer-id], block: true)
-TaskOutput(task_id: [frontend-analyzer-id], block: true)
-TaskOutput(task_id: [api-analyzer-id], block: true)
+TaskOutput(task_id: [database-analyzer-id], block: true, timeout: 180000)
+TaskOutput(task_id: [backend-analyzer-id], block: true, timeout: 180000)
+TaskOutput(task_id: [frontend-analyzer-id], block: true, timeout: 180000)
+TaskOutput(task_id: [api-analyzer-id], block: true, timeout: 180000)
 ```
 
-Collect all results before proceeding to consolidation.
+### Retry Logic for Rate Limits
+
+If an agent result indicates rate limiting or incomplete analysis:
+
+1. **Detect incomplete results**: Look for phrases like "rate limit", "incomplete", "partial analysis", or truncated output
+2. **Wait and retry**:
+   - Wait 30 seconds
+   - Resume the agent: `Task(resume: [agent-id], prompt: "Continue your analysis from where you left off")`
+   - Call TaskOutput again with same timeout
+3. **Maximum retries**: 2 attempts per agent, then mark as partial
+
+### Track Agent Status
+
+Record completion status for each agent:
+- `success` - Agent completed full analysis
+- `partial` - Agent hit rate limits, retried, but incomplete
+- `no_code` - Agent found no relevant code for its layer
+- `failed` - Agent failed after all retries
+
+Example tracking:
+```
+database: success (8 issues)
+backend: partial (rate limited after retry)
+frontend: no_code
+api: success (30 issues)
+```
+
+Collect all results and statuses before proceeding to consolidation.
 
 ## Step 4: Consolidate Report
 
@@ -126,7 +153,13 @@ Parse each agent's output and create a unified report:
 ## Summary
 - **Tech Stack**: [detected stack]
 - **Total Issues**: X (High: X | Medium: X | Low: X)
-- **Layers Analyzed**: Database, Backend, Frontend, API
+- **Analysis Status**:
+  - Database: ✓ Analyzed (X issues) | ⚠ Partial (rate limited) | ✗ No code detected
+  - Backend: ✓ Analyzed (X issues) | ⚠ Partial (rate limited) | ✗ No code detected
+  - Frontend: ✓ Analyzed (X issues) | ⚠ Partial (rate limited) | ✗ No code detected
+  - API: ✓ Analyzed (X issues) | ⚠ Partial (rate limited) | ✗ No code detected
+
+---
 
 ## Database Issues (X High, X Medium, X Low)
 
@@ -155,12 +188,22 @@ Top 3 high-impact issues that are straightforward to fix:
 3. [Issue] - [One-line fix description]
 ```
 
-### Handling Missing Layers
+### Handling Layer Status
 
-If an agent returns "No relevant code found" or finds no issues:
-- **Omit that section** from the report entirely
-- In Summary, note: "Layers Analyzed: Database, Backend" (listing only analyzed layers)
-- Do NOT include empty sections
+**Summary always shows all 4 layers** with their status:
+
+| Agent Result | Summary Status | Section Behavior |
+|--------------|----------------|------------------|
+| Found issues | ✓ Analyzed (X issues) | Include full section |
+| No code for layer | ✗ No code detected | Omit section |
+| Rate limited/partial | ⚠ Partial (rate limited) | Include available findings, note incomplete |
+| Agent failed | ✗ Analysis failed | Omit section |
+
+**Key Rules:**
+- Summary ALWAYS lists all 4 layers with status indicators
+- Issue sections only appear if issues were found
+- Never show empty issue sections (e.g., "## Frontend Issues" with no content)
+- Partial results should include whatever findings were captured before the limit
 
 ## Important Notes
 
