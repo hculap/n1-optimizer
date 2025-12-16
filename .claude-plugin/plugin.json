@@ -1,6 +1,6 @@
 {
   "name": "n1-optimizer",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Parallel performance analysis tool that identifies N+1 queries, inefficient APIs, and suboptimal code patterns across your entire application stack",
   "author": {
     "name": "Szymon Paluch"

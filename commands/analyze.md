@@ -29,9 +29,9 @@ Also identify source directories by checking for: `src/`, `app/`, `lib/`, `servi
 
 **CRITICAL:** Launch ALL 4 agents in a SINGLE message with multiple Task tool calls. Do NOT launch them sequentially.
 
-Use `subagent_type` matching the agent name exactly:
+Use `subagent_type` with plugin namespace `n1-optimizer:<agent-name>`:
 
-### Agent 1: database-analyzer
+### Agent 1: n1-optimizer:database-analyzer
 ```
 Prompt: "Analyze this codebase for database performance issues.
 
@@ -49,7 +49,7 @@ Focus on:
 Return findings in format: [SEVERITY] Issue - file:line"
 ```
 
-### Agent 2: backend-analyzer
+### Agent 2: n1-optimizer:backend-analyzer
 ```
 Prompt: "Analyze this codebase for backend performance issues.
 
@@ -67,7 +67,7 @@ Focus on:
 Return findings in format: [SEVERITY] Issue - file:line"
 ```
 
-### Agent 3: frontend-analyzer
+### Agent 3: n1-optimizer:frontend-analyzer
 ```
 Prompt: "Analyze this codebase for frontend performance issues.
 
@@ -85,7 +85,7 @@ Focus on:
 Return findings in format: [SEVERITY] Issue - file:line"
 ```
 
-### Agent 4: api-analyzer
+### Agent 4: n1-optimizer:api-analyzer
 ```
 Prompt: "Analyze this codebase for API performance issues.
 
@@ -208,7 +208,7 @@ Top 3 high-impact issues that are straightforward to fix:
 ## Important Notes
 
 - **Parallel Execution**: Always launch all 4 agents in ONE message with multiple Task calls
-- **Agent Names**: Use exact `subagent_type`: `database-analyzer`, `backend-analyzer`, `frontend-analyzer`, `api-analyzer`
+- **Agent Names**: Use namespaced `subagent_type`: `n1-optimizer:database-analyzer`, `n1-optimizer:backend-analyzer`, `n1-optimizer:frontend-analyzer`, `n1-optimizer:api-analyzer`
 - **Severity Classification**:
   - **HIGH**: N+1 queries, O(n²) algorithms, unbounded queries, memory leaks - causes significant slowdowns
   - **MEDIUM**: Missing eager loading, sequential awaits, minor over-fetching - noticeable under load
