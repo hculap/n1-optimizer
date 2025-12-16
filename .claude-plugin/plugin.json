@@ -1,6 +1,6 @@
 {
   "name": "n1-optimizer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Parallel performance analysis tool that identifies N+1 queries, inefficient APIs, and suboptimal code patterns across your entire application stack",
   "author": {
     "name": "Szymon Paluch"
@@ -8,5 +8,11 @@
   "repository": "https://github.com/hculap/n1-optimizer",
   "homepage": "https://github.com/hculap/n1-optimizer#readme",
   "license": "MIT",
-  "keywords": ["performance", "n+1", "optimization", "database", "api", "analysis"]
+  "keywords": ["performance", "n+1", "optimization", "database", "api", "analysis"],
+  "agents": [
+    "agents/database-analyzer.md",
+    "agents/backend-analyzer.md",
+    "agents/frontend-analyzer.md",
+    "agents/api-analyzer.md"
+  ]
 }
