@@ -50,10 +50,9 @@ Results are grouped by category with issue counts:
 
 ## Installation
 
-### From GitHub
-
 ```
-claude plugin install github:hculap/n1-optimizer
+/plugin marketplace add hculap/n1-optimizer
+/plugin install n1-optimizer@n1-optimizer
 ```
 
 ### Local Development
